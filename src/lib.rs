@@ -1,6 +1,7 @@
 pub mod questions;
 
 use std::{fs::File, io::Read};
+// prev answ 6706
 
 pub fn read_question_file(question_number: u16, part: u16) -> String {
     let mut input: String = String::new();

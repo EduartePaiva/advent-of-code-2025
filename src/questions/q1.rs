@@ -26,31 +26,26 @@ pub fn p1(file: String) -> u32 {
 }
 
 pub fn p2(file: String) -> u32 {
-    let mut times_of_0 = 0;
-    let mut val = 50;
+    let mut count = 0;
+    let mut current = 50;
 
     for line in file.lines() {
-        let mut num = line[1..].parse::<i32>().unwrap();
+        let value = line[1..].parse::<i32>().unwrap();
+        let mut delta = 1;
         if line.chars().next().unwrap() == 'L' {
-            num *= -1;
+            delta = -1;
         }
 
-        let new_total = val + num;
-
-        // println!("{times_of_0}, {new_total}, {}", (new_total / 100).abs());
-        times_of_0 += (new_total / 100).unsigned_abs();
-
-        val = (val + num) % 100;
-        if val < 0 {
-            val += 100;
-
-            if val != 0 {
-                times_of_0 += 1;
+        for _ in 0..value {
+            current += delta;
+            current %= 100;
+            if current == 0 {
+                count += 1;
             }
         }
     }
 
-    times_of_0
+    count
 }
 #[cfg(test)]
 mod tests {
