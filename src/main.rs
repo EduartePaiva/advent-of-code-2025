@@ -13,4 +13,5 @@ fn main() {
     // println!("q3 pt 1 answer {}", q3::p1(read_question_file(3, 1)));
     // println!("q3 pt 2 answer {}", q3::p2(read_question_file(3, 1)));
     println!("q4 pt 1 answer {}", q4::p1(read_question_file(4, 1)));
+    println!("q4 pt 2 answer {}", q4::p2(read_question_file(4, 1)));
 }

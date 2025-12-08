@@ -67,6 +67,40 @@ pub fn p1(input: String) -> u64 {
     total
 }
 
+pub fn p2(input: String) -> u64 {
+    let mut total = 0;
+    let mut grid: Vec<Vec<char>> = vec![];
+
+    // parse the input into the grid
+    for line in input.lines() {
+        let mut row = vec![];
+        for c in line.chars() {
+            row.push(c);
+        }
+        grid.push(row);
+    }
+
+    loop {
+        let mut sub_total = 0;
+
+        for r in 0..grid.len() {
+            for c in 0..grid[0].len() {
+                if grid[r][c] == '@' && is_roll_valid(&grid, r, c) {
+                    sub_total += 1;
+                    grid[r][c] = '.';
+                }
+            }
+        }
+        if sub_total > 0 {
+            total += sub_total;
+        } else {
+            break;
+        }
+    }
+
+    total
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -85,6 +119,23 @@ mod tests {
 @.@.@@@.@."
                 .to_string()),
             13
+        );
+    }
+    #[test]
+    fn test2() {
+        assert_eq!(
+            p2("..@@.@@@@.
+@@@.@.@.@@
+@@@@@.@.@@
+@.@@@@..@.
+@@.@@@@.@@
+.@@@@@@@.@
+.@.@.@.@@@
+@.@@@.@@@@
+.@@@@@@@@.
+@.@.@@@.@."
+                .to_string()),
+            43
         );
     }
 }
