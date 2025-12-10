@@ -16,5 +16,6 @@ fn main() {
     // println!("q4 pt 2 answer {}", q4::p2(read_question_file(4, 1)));
     // println!("q5 pt 1 answer {}", q5::p1(read_question_file(5, 1)));
     // println!("q5 pt 2 answer {}", q5::p2(read_question_file(5, 1)));
-    println!("q6 pt 1 answer {}", q6::p1(read_question_file(6, 1)));
+    // println!("q6 pt 1 answer {}", q6::p1(read_question_file(6, 1)));
+    println!("q6 pt 2 answer {}", q6::p2(read_question_file(6, 1)));
 }
