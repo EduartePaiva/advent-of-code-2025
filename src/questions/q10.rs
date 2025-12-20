@@ -1,12 +1,17 @@
 use std::collections::HashMap;
 
 #[derive(Debug)]
-struct InputLine {
+struct InputP1 {
     pattern: Vec<bool>,
     buttons: Vec<Vec<usize>>,
 }
+#[derive(Debug)]
+struct InputP2 {
+    pattern: Vec<u32>,
+    buttons: Vec<Vec<usize>>,
+}
 
-fn solve_challenge(inp: InputLine) -> u32 {
+fn solve_p1(inp: InputP1) -> u32 {
     let mut hash: HashMap<Vec<bool>, u32> = HashMap::new();
 
     fn dfs(hash: &mut HashMap<Vec<bool>, u32>, pat: Vec<bool>, btns: &Vec<Vec<usize>>, depth: u32) {
@@ -35,7 +40,42 @@ fn solve_challenge(inp: InputLine) -> u32 {
 }
 
 pub fn p1(input: String) -> u32 {
-    let mut parsed_inp: Vec<InputLine> = vec![];
+    let mut parsed_inp: Vec<InputP2> = vec![];
+
+    // parse input
+    for l in input.lines() {
+        let mut patterns: Vec<_> = l.split_whitespace().collect();
+        patterns.remove(0);
+
+        let mut pattern = patterns[patterns.len() - 1]
+            .trim_matches(['{', '}'])
+            .split(',')
+            .map(|v| v.parse::<u32>().unwrap())
+            .collect();
+
+        let buttons: Vec<Vec<usize>> = patterns
+            .iter()
+            .filter(|v| v.chars().next().unwrap() != '{')
+            .map(|v| {
+                v.trim_matches(['(', ')'])
+                    .split(',')
+                    .map(|c| c.parse::<usize>().unwrap())
+                    .collect()
+            })
+            .collect();
+
+        parsed_inp.push(InputP2 { pattern, buttons });
+    }
+
+    dbg!(parsed_inp);
+
+    // parsed_inp.into_iter().map(solve_p1).sum()
+
+    0
+}
+
+pub fn p2(input: String) -> u32 {
+    let mut parsed_inp: Vec<InputP1> = vec![];
 
     // parse input
     for l in input.lines() {
@@ -60,12 +100,11 @@ pub fn p1(input: String) -> u32 {
             })
             .collect();
 
-        parsed_inp.push(InputLine { pattern, buttons });
+        parsed_inp.push(InputP1 { pattern, buttons });
     }
-
-    parsed_inp.into_iter().map(solve_challenge).sum()
+    0
+    // same thing as the previous one, but now we break the dfs once any number increase goes past the max
 }
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -77,6 +116,16 @@ mod tests {
 [.###.#] (0,1,2,3,4) (0,3,4) (0,1,2,4,5) (1,2) {10,11,11,5,10,5}"
                 .to_string()),
             7
+        )
+    }
+    #[test]
+    fn test2() {
+        assert_eq!(
+            p2("[.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}
+[...#.] (0,2,3,4) (2,3) (0,4) (0,1,2) (1,2,3,4) {7,5,12,7,2}
+[.###.#] (0,1,2,3,4) (0,3,4) (0,1,2,4,5) (1,2) {10,11,11,5,10,5}"
+                .to_string()),
+            33
         )
     }
 }
