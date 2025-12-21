@@ -23,5 +23,6 @@ fn main() {
     // println!("q8 pt 1 answer {}", q8::p1(read_question_file(8, 1), 1000));
     // println!("q8 pt 2 answer {}", q8::p2(read_question_file(8, 1)));
     // println!("q9 pt 1 answer {}", q9::p1(read_question_file(9, 1)));
-    println!("q10 pt 1 answer {}", q10::p1(read_question_file(10, 1)));
+    // println!("q10 pt 1 answer {}", q10::p1(read_question_file(10, 1)));
+    println!("q10 pt 2 answer {}", q10::p2(read_question_file(10, 1)));
 }
