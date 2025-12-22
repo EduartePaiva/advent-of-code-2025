@@ -1,7 +1,7 @@
 #![allow(dead_code, unused_imports)]
 
 use advent_of_code_2025::{
-    questions::{q1, q2, q3, q4, q5, q6, q7, q8, q9, q10},
+    questions::{q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11},
     read_question_file,
 };
 
@@ -24,5 +24,6 @@ fn main() {
     // println!("q8 pt 2 answer {}", q8::p2(read_question_file(8, 1)));
     // println!("q9 pt 1 answer {}", q9::p1(read_question_file(9, 1)));
     // println!("q10 pt 1 answer {}", q10::p1(read_question_file(10, 1)));
-    println!("q10 pt 2 answer {}", q10::p2(read_question_file(10, 1)));
+    // println!("q10 pt 2 answer {}", q10::p2(read_question_file(10, 1)));
+    println!("q11 pt 1 answer {}", q11::p1(read_question_file(11, 1)));
 }

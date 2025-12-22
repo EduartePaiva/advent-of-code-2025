@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 pub fn p1(input: String) -> u32 {
     let mut adj: HashMap<&str, Vec<&str>> = HashMap::new();
@@ -12,9 +12,37 @@ pub fn p1(input: String) -> u32 {
             .extend(items_left);
     }
 
-    dbg!(adj);
+    // we travel from you and finish at out.
+    // what we want to know is how many paths can we make from you to out
+    // we can't visit the same key two times, so if that happens it's an invalid path
 
-    0
+    let mut visit: HashSet<&str> = HashSet::new();
+
+    fn backtrack<'a>(
+        adj: &HashMap<&str, Vec<&'a str>>,
+        visit: &mut HashSet<&'a str>,
+        cur: &'a str,
+    ) -> u32 {
+        if cur == "out" {
+            return 1;
+        }
+        if visit.contains(cur) {
+            return 0;
+        }
+        visit.insert(cur);
+
+        let mut res = 0;
+        if let Some(nei) = adj.get(cur) {
+            for n in nei {
+                res += backtrack(adj, visit, n);
+            }
+        }
+
+        visit.remove(cur);
+        res
+    }
+
+    backtrack(&adj, &mut visit, "you")
 }
 
 #[cfg(test)]
