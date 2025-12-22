@@ -6,10 +6,9 @@ pub fn p1(input: String) -> u32 {
     for l in input.lines() {
         let items: Vec<_> = l.split_whitespace().collect();
 
-        let items_left = items[1..].to_vec();
         adj.entry(items[0].trim_end_matches(':'))
             .or_insert(Vec::new())
-            .extend(items_left);
+            .extend(items.iter().skip(1));
     }
 
     // we travel from you and finish at out.
