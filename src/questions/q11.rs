@@ -43,7 +43,7 @@ pub fn p1(input: String) -> u32 {
 
     backtrack(&adj, &mut visit, "you")
 }
-pub fn p2(input: String) -> u32 {
+pub fn p2(input: String) -> u128 {
     let mut adj: HashMap<&str, Vec<&str>> = HashMap::new();
 
     for l in input.lines() {
@@ -59,38 +59,47 @@ pub fn p2(input: String) -> u32 {
     // what we want to know is how many paths can we make from you to out.
     // we can't visit the same key two times, so if that happens it's an invalid path.
 
-    let mut visit: HashSet<&str> = HashSet::new();
+    // we can try caching the path at the same time we
 
-    fn backtrack<'a>(
+    let mut cache: HashMap<(&str, bool, bool), u128> = HashMap::new();
+
+    fn dfs<'a>(
         adj: &HashMap<&str, Vec<&'a str>>,
-        visit: &mut HashSet<&'a str>,
         cur: &'a str,
-    ) -> u32 {
+        cache: &mut HashMap<(&'a str, bool, bool), u128>,
+        is_dac: bool,
+        is_fft: bool,
+    ) -> u128 {
         if cur == "out" {
-            if visit.contains("dac") && visit.contains("fft") {
+            if is_dac && is_fft {
                 return 1;
-            } else {
-                return 0;
             }
-        }
-        if visit.contains(cur) {
             return 0;
         }
 
-        visit.insert(cur);
+        if let Some(v) = cache.get(&(cur, is_dac, is_fft)) {
+            return *v;
+        }
 
         let mut res = 0;
         if let Some(nei) = adj.get(cur) {
             for n in nei {
-                res += backtrack(adj, visit, n);
+                res += dfs(
+                    adj,
+                    n,
+                    cache,
+                    is_dac || cur == "dac",
+                    is_fft || cur == "fft",
+                );
             }
         }
 
-        visit.remove(cur);
+        cache.insert((cur, is_dac, is_fft), res);
+
         res
     }
 
-    backtrack(&adj, &mut visit, "svr")
+    dfs(&adj, "svr", &mut cache, false, false)
 }
 
 #[cfg(test)]
